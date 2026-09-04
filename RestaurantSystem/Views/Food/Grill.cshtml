@@ -1,0 +1,128 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<div class="container mt-4 text-end" dir="rtl">
+    <h2 class="alert alert-danger text-center shadow">قائمة المشويات الطازجة 🔥</h2>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-danger text-center">
+                <img src="~/images/hamam.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body">
+                    <h5>حمام محشي (فردة)</h5>
+                    <p class="text-danger fw-bold">150 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="حمام محشي" />
+                        <input type="hidden" name="price" value="150" />
+                        <label>الكمية (بالفردة):</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("حمام محشي") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-danger w-100 shadow-sm">إضافة للسلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-danger text-center">
+                <img src="~/images/kofta.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body">
+                    <h5>كفتة مشوية (ربع كيلو)</h5>
+                    <p class="text-danger fw-bold">120 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="كفتة مشوية" />
+                        <input type="hidden" name="price" value="120" />
+                        <label>كم ربع كيلو تريد؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("كفتة مشوية") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-danger w-100 shadow-sm">إضافة للسلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-danger text-center">
+                <img src="~/images/beef.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body">
+                    <h5>لحمة بقري (ربع كيلو)</h5>
+                    <p class="text-danger fw-bold">140 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="لحمة بقري" />
+                        <input type="hidden" name="price" value="140" />
+                        <label>كم ربع كيلو تريد؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("لحمة بقري") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-danger w-100 shadow-sm">إضافة للسلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-danger text-center">
+                <img src="~/images/chicken.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body">
+                    <h5>فراخ مشوية (ربع دجاجة)</h5>
+                    <p class="text-danger fw-bold">70 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="فراخ مشوية" />
+                        <input type="hidden" name="price" value="70" />
+                        <label>كم ربع فرخة؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("فراخ مشوية") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-danger w-100 shadow-sm">إضافة للسلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-danger text-center">
+                <img src="~/images/liver.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body">
+                    <h5>كبدة مشوية (ربع كيلو)</h5>
+                    <p class="text-danger fw-bold">110 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="كبدة مشوية" />
+                        <input type="hidden" name="price" value="110" />
+                        <label>كم ربع كيلو تريد؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("كبدة مشوية") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-danger w-100 shadow-sm">إضافة للسلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-danger text-center">
+                <img src="~/images/head_meat.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body">
+                    <h5>لحمة راس (ربع كيلو)</h5>
+                    <p class="text-danger fw-bold">100 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="لحمة راس" />
+                        <input type="hidden" name="price" value="100" />
+                        <label>كم ربع كيلو تريد؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("لحمة راس") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-danger w-100 shadow-sm">إضافة للسلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 p-4 border bg-light rounded shadow-sm d-flex justify-content-between align-items-center">
+        <div>
+            <a asp-action="Sweets" class="btn btn-warning btn-lg me-2 shadow-sm">🍰 قائمة الحلويات</a>
+            <a asp-action="Drinks" class="btn btn-info btn-lg text-white shadow-sm">🥤 قائمة المشروبات</a>
+        </div>
+
+        <div class="text-center">
+            <h3 class="text-success fw-bold">الإجمالي الحالي: @(HttpContextAccessor.HttpContext.Session.GetInt32("TotalPrice") ?? 0) جنيه</h3>
+            <a asp-action="Checkout" class="btn btn-primary btn-xl px-5 shadow">اتمام الشراء الآن 🛒</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<div class="container mt-4 text-end" dir="rtl">
+    <h2 class="alert alert-warning text-center shadow text-dark font-weight-bold">حلويات مطعمنا 🍰</h2>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-warning">
+                <img src="~/images/rice_milk.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body text-center">
+                    <h5>رز بلبن فاخر</h5>
+                    <p class="text-primary fw-bold">35 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="رز بلبن" />
+                        <input type="hidden" name="price" value="35" />
+                        <label>كم طبق تريد؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("رز بلبن") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-warning w-100">تحديث السلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-warning">
+                <img src="~/images/mehalabia.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body text-center">
+                    <h5>مهلبية بالقشطة</h5>
+                    <p class="text-primary fw-bold">30 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="مهلبية بالقشطة" />
+                        <input type="hidden" name="price" value="30" />
+                        <label>كم طبق تريد؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("مهلبية بالقشطة") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-warning w-100">تحديث السلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-warning">
+                <img src="~/images/gateau.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body text-center">
+                    <h5>قطع جاتوه</h5>
+                    <p class="text-primary fw-bold">45 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="قطع جاتوه" />
+                        <input type="hidden" name="price" value="45" />
+                        <label>كم قطعة؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("قطع جاتوه") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-warning w-100">تحديث السلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-warning">
+                <img src="~/images/basbousa.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body text-center">
+                    <h5>بسبوسة بالمكسرات</h5>
+                    <p class="text-primary fw-bold">40 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="بسبوسة بالمكسرات" />
+                        <input type="hidden" name="price" value="40" />
+                        <label>كم قطعة؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("بسبوسة بالمكسرات") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-warning w-100">تحديث السلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-warning">
+                <img src="~/images/om_ali.jpg" class="card-img-top" style="height:160px; object-fit:cover;">
+                <div class="card-body text-center">
+                    <h5>طاجن أم علي</h5>
+                    <p class="text-primary fw-bold">50 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="طاجن أم علي" />
+                        <input type="hidden" name="price" value="50" />
+                        <label>كم طاجن؟</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("طاجن أم علي") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-warning w-100">تحديث السلة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 p-4 border bg-light rounded shadow-sm d-flex justify-content-between align-items-center">
+        <div>
+            <a asp-controller="Food" asp-action="Grill" class="btn btn-danger px-4">🔙 اطلب مشويات</a>
+            <a asp-controller="Food" asp-action="Drinks" class="btn btn-info px-4 text-white">🥤 اطلب مشروبات</a>
+        </div>
+
+        <div class="text-center">
+            <h4 class="text-success fw-bold">إجمالي الحساب: @(HttpContextAccessor.HttpContext.Session.GetInt32("TotalPrice") ?? 0) جنيه</h4>
+            <a asp-action="Checkout" class="btn btn-success btn-lg">🛒 شراء الآن</a>
+        </div>
+    </div>
+</div>

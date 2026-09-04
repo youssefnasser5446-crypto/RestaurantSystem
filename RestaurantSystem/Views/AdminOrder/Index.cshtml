@@ -1,0 +1,142 @@
+﻿@model IEnumerable<RestaurantSystem.Models.Order>
+
+@{
+    ViewData["Title"] = "لوحة تحكم الطلبات";
+}
+
+<div class="container mt-4 text-end" dir="rtl">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <h2 class="fw-bold text-dark mb-0">📢 إدارة طلبات الزبائن</h2>
+        <a asp-controller="AdminOrder" asp-action="MonthlySales" class="btn btn-success shadow-sm">
+            📊 تقرير المبيعات الشهرية
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover border shadow-sm bg-white">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>رقم الطلب</th>
+                    <th>اسم العميل</th>
+                    <th>التفاصيل (الأصناف)</th>
+                    <th>العنوان</th>
+                    <th>المبلغ</th>
+                    <th>الحالة</th>
+                    <th>إجراء سريع</th>
+                </tr>
+            </thead>
+            <tbody class="text-center align-middle">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">#@order.Id</td>
+                            <td>
+                                <div class="fw-bold text-primary">@order.CustomerName</div>
+                                <small class="text-muted"><i class="bi bi-telephone"></i> @order.Phone</small>
+                            </td>
+
+                            <td class="text-start">
+                                <ul class="list-unstyled mb-0 small">
+                                    @foreach (var item in order.OrderDetails)
+                                    {
+                                        <li class="mb-1">
+                                            <i class="bi bi-dot text-success"></i>
+                                            @item.ItemName
+                                            <span class="badge bg-light text-dark border ms-1">x @item.Quantity</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+
+                            <td>@order.Address</td>
+                            <td class="text-danger fw-bold">@order.TotalPrice جنيه</td>
+                            <td>
+                                @if (order.Status == "تم التوصيل")
+                                {
+                                    <span class="badge bg-success">تم التوصيل ✅</span>
+                                }
+                                else if (order.Status == "جاري التجهيز")
+                                {
+                                    <span class="badge bg-warning text-dark">جاري التجهيز 👨‍🍳</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info text-dark">قيد الانتظار ⏳</span>
+                                }
+                            </td>
+                            <td>
+                                @if (order.Status != "تم التوصيل")
+                                {
+                                    <div class="d-flex gap-2 justify-content-center">
+                                        @if (order.Status != "جاري التجهيز")
+                                        {
+                                            <form asp-action="UpdateStatus" method="post" style="display:inline;">
+                                                <input type="hidden" name="orderId" value="@order.Id" />
+                                                <input type="hidden" name="newStatus" value="جاري التجهيز" />
+                                                <button type="submit" class="btn btn-sm btn-outline-warning">تجهيز</button>
+                                            </form>
+                                        }
+
+                                        <form asp-action="UpdateStatus" method="post" style="display:inline;">
+                                            <input type="hidden" name="orderId" value="@order.Id" />
+                                            <input type="hidden" name="newStatus" value="تم التوصيل" />
+                                            <button type="submit" class="btn btn-sm btn-success">توصيل</button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small italic">مكتمل</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="py-5 text-muted">
+                            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                            لا توجد طلبات حالياً في قاعدة البيانات
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .table th {
+        vertical-align: middle;
+        font-size: 0.95rem;
+    }
+
+    .badge {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+        border-radius: 5px;
+    }
+
+    .btn-sm {
+        font-weight: bold;
+        padding: 5px 15px;
+    }
+
+    .table-responsive {
+        border-radius: 10px;
+        overflow: hidden;
+        background: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f4f9;
+        transition: 0.3s;
+    }
+</style>

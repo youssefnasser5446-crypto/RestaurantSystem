@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "الصفحة الرئيسية - مطعمنا";
+}
+
+<div class="text-center mt-4">
+    <h1 class="display-4 fw-bold text-primary">قائمة الطعام الشهية</h1>
+    <p class="lead">اختار القسم اللي تحبه وابدأ الطلب الآن</p>
+</div>
+
+@if (!string.IsNullOrEmpty(ViewBag.CustomerName))
+{
+    <div class="container mt-3">
+        <div class="alert alert-dark shadow-sm d-flex justify-content-between align-items-center" style="border-right: 5px solid #28a745;">
+            <div>
+                <h5 class="mb-1">مرحباً يا @ViewBag.CustomerName 👋</h5>
+                <p class="mb-0 text-muted">إجمالي طلبك الحالي: <strong>@ViewBag.Total جنيه</strong></p>
+            </div>
+            <div class="text-center">
+                <span class="badge @(ViewBag.OrderStatus == "تم التوصيل" ? "bg-success" : "bg-warning text-dark") p-2 px-4 mb-2" style="font-size: 1.1rem;">
+                    🚚 @ViewBag.OrderStatus
+                </span>
+                <br />
+                <a asp-controller="Food" asp-action="Success" class="btn btn-sm btn-outline-primary">تفاصيل الطلب 🔍</a>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow">
+                <img src="~/images/grill.jpg" class="card-img-top" alt="مشويات" style="height: 250px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h3 class="card-title">المشويات</h3>
+                    <p class="card-text">لحوم، كفتة، حمام، وفراخ مشوية على الفحم</p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="me-2 fw-bold">اطلب الآن</span>
+                        <a asp-controller="Food" asp-action="Grill" class="btn btn-danger btn-lg rounded-circle">
+                            <i class="bi bi-arrow-right"></i> →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow">
+                <img src="~/images/sweets.jpg" class="card-img-top" alt="حلويات" style="height: 250px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h3 class="card-title">الحلويات</h3>
+                    <p class="card-text">مهلبية، رز بلبن، وأفخم أنواع الحلويات الشرقية</p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="me-2 fw-bold">اطلب الآن</span>
+                        <a asp-controller="Food" asp-action="Sweets" class="btn btn-warning btn-lg rounded-circle text-white">
+                            →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow">
+                <img src="~/images/drinks.jpg" class="card-img-top" alt="مشروبات" style="height: 250px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h3 class="card-title">المشروبات</h3>
+                    <p class="card-text">بيبسي، فانتا، وعصائر فريش تروي عطشك</p>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <span class="me-2 fw-bold">اطلب الآن</span>
+                        <a asp-controller="Food" asp-action="Drinks" class="btn btn-info btn-lg rounded-circle text-white">
+                            →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card { transition: transform .2s; border: none; }
+    .card:hover { transform: scale(1.05); }
+    .btn-lg { width: 50px; height: 50px; padding: 10px; line-height: 1; }
+</style>

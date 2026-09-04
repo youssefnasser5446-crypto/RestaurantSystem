@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<div class="container mt-4 text-end" dir="rtl">
+    <h2 class="alert alert-info text-center shadow text-dark font-weight-bold">قائمة المشروبات الباردة 🥤</h2>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100 border-info text-center">
+                <img src="~/images/pepsi.jpg" class="card-img-top p-3" style="height:150px; object-fit:contain;">
+                <div class="card-body">
+                    <h5>بيبسي</h5>
+                    <p class="text-primary fw-bold">20 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="بيبسي" />
+                        <input type="hidden" name="price" value="20" />
+                        <label>الكمية:</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("بيبسي") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-info text-white w-100">إضافة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100 border-info text-center">
+                <img src="~/images/fanta.jpg" class="card-img-top p-3" style="height:150px; object-fit:contain;">
+                <div class="card-body">
+                    <h5>فانتا برتقال</h5>
+                    <p class="text-primary fw-bold">20 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="فانتا برتقال" />
+                        <input type="hidden" name="price" value="20" />
+                        <label>الكمية:</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("فانتا برتقال") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-info text-white w-100">إضافة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100 border-info text-center">
+                <img src="~/images/water.jpg" class="card-img-top p-3" style="height:150px; object-fit:contain;">
+                <div class="card-body">
+                    <h5>مياه معدنية</h5>
+                    <p class="text-primary fw-bold">10 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="مياه معدنية" />
+                        <input type="hidden" name="price" value="10" />
+                        <label>الكمية:</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("مياه معدنية") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-info text-white w-100">إضافة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100 border-info text-center">
+                <img src="~/images/juice.jpg" class="card-img-top p-3" style="height:150px; object-fit:contain;">
+                <div class="card-body">
+                    <h5>عصير فريش</h5>
+                    <p class="text-primary fw-bold">30 جنيه</p>
+                    <form asp-action="AddToCart" method="post">
+                        <input type="hidden" name="itemName" value="عصير فريش" />
+                        <input type="hidden" name="price" value="30" />
+                        <label>الكمية:</label>
+                        <input type="number" name="quantity" class="form-control mb-2 text-center"
+                               value="@(HttpContextAccessor.HttpContext.Session.GetInt32("عصير فريش") ?? 0)" min="0" />
+                        <button type="submit" class="btn btn-info text-white w-100">إضافة</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 p-4 border bg-light rounded shadow-sm d-flex justify-content-between align-items-center">
+        <div>
+            <a asp-controller="Food" asp-action="Grill" class="btn btn-danger px-4">🔙 للمشويات</a>
+            <a asp-controller="Food" asp-action="Sweets" class="btn btn-warning px-4">🍰 للحلويات</a>
+        </div>
+
+        <div class="text-center">
+            <h4 class="text-success fw-bold">إجمالي حسابك: @(HttpContextAccessor.HttpContext.Session.GetInt32("TotalPrice") ?? 0) جنيه</h4>
+            <a asp-action="Checkout" class="btn btn-dark btn-lg">🛒 إنهاء الطلب</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<RestaurantSystem.Models.Order>
+
+@{
+    ViewData["Title"] = "لوحة تحكم الطلبات";
+}
+
+<div class="container mt-4 text-end" dir="rtl">
+    <h2 class="text-center mb-4 fw-bold text-dark">📢 إدارة طلبات الزبائن</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover border shadow-sm">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>رقم الطلب</th>
+                    <th>اسم العميل</th>
+                    <th>التفاصيل (الأصناف)</th>
+                    <th>العنوان</th>
+                    <th>المبلغ</th>
+                    <th>الحالة</th>
+                    <th>إجراء سريع</th>
+                </tr>
+            </thead>
+            <tbody class="text-center align-middle">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td class="fw-bold">#@order.Id</td>
+                            <td>@order.CustomerName <br /> <small class="text-muted">@order.Phone</small></td>
+
+                            <td class="text-start">
+                                <ul class="list-unstyled mb-0 small">
+                                    @foreach (var item in order.OrderDetails)
+                                    {
+                                        <li><i class="bi bi-check-sm text-success"></i> @item.ItemName</li>
+                                    }
+                                </ul>
+                            </td>
+
+                            <td>@order.Address</td>
+                            <td class="text-danger fw-bold">@order.TotalPrice جنيه</td>
+                            <td>
+                                @* ألوان الحالات بناءً على النص المسجل في قاعدة البيانات *@
+                                @if (order.Status == "تم التوصيل")
+                                {
+                                    <span class="badge bg-success">تم التوصيل</span>
+                                }
+                                else if (order.Status == "جاري التجهيز")
+                                {
+                                    <span class="badge bg-warning text-dark">جاري التجهيز</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info text-dark">قيد الانتظار</span>
+                                }
+                            </td>
+                            <td>
+                                @if (order.Status != "تم التوصيل")
+                                {
+                                    <div class="d-flex gap-2 justify-content-center">
+
+                                        @* إذا لم يتم التجهيز بعد، أظهر زر التجهيز *@
+                                        @if (order.Status != "جاري التجهيز")
+                                        {
+                                            <form asp-action="UpdateStatus" method="post">
+                                                <input type="hidden" name="orderId" value="@order.Id" />
+                                                <input type="hidden" name="newStatus" value="جاري التجهيز" />
+                                                <button type="submit" class="btn btn-sm btn-outline-warning">
+                                                    تجهيز 👨‍🍳
+                                                </button>
+                                            </form>
+                                        }
+
+                                        @* زر التوصيل متاح دائماً طالما الطلب لم يكتمل *@
+                                        <form asp-action="UpdateStatus" method="post">
+                                            <input type="hidden" name="orderId" value="@order.Id" />
+                                            <input type="hidden" name="newStatus" value="تم التوصيل" />
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                توصيل ✅
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">مكتمل</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="py-4 text-muted">لا توجد طلبات في قاعدة البيانات حالياً</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .table th {
+        vertical-align: middle;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+
+    .btn-sm {
+        padding: 5px 10px;
+        font-weight: bold;
+    }
+</style>

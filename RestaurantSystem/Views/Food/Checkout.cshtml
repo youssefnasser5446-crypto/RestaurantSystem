@@ -1,0 +1,90 @@
+﻿@model RestaurantSystem.Models.Order
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "تأكيد الطلب";
+}
+
+<div class="container mt-5 text-end" dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>📝 تأكيد بيانات التوصيل</h3>
+                </div>
+                <div class="card-body p-4">
+
+                    @* تأكد من أن الـ Action اسمه Checkout أو FinalizeOrder حسب ما أنت مسميه في الكنترولر *@
+                    <form asp-action="Checkout" method="post">
+
+                        @* --- الجزء السحري: تحويل أصناف السلة لبيانات مخفية تتبعت مع الأوردر --- *@
+                        @{
+                            int i = 0;
+                            // بنلف على كل السيشين عشان نطلع الأصناف
+                            foreach (var key in Context.Session.Keys)
+                            {
+                                // بنستبعد مفاتيح السيشين اللي مش أصناف أكل
+                                if (key == "TotalPrice" || key == "UserEmail" || key == "CustomerName") continue;
+
+                                var qty = Context.Session.GetInt32(key);
+                                if (qty.HasValue && qty > 0)
+                                {
+                                    @* التسمية دي OrderDetails[@i] هي اللي بتخلي الـ C# يفهم إن دي لستة تفاصيل *@
+                                    <input type="hidden" name="OrderDetails[@i].ItemName" value="@key" />
+                                    <input type="hidden" name="OrderDetails[@i].Quantity" value="@qty" />
+                                    <input type="hidden" name="OrderDetails[@i].Price" value="0" />
+                                    i++;
+                                }
+                            }
+                        }
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">الاسم بالكامل</label>
+                                <input asp-for="CustomerName" class="form-control" required placeholder="مثال: محمد أحمد" />
+                                <span asp-validation-for="CustomerName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">رقم الموبايل</label>
+                                <input asp-for="Phone"
+                                       class="form-control"
+                                       required
+                                       type="tel"
+                                       pattern="^01[0125][0-9]{8}$"
+                                       title="برجاء إدخال رقم موبايل مصري صحيح مكون من 11 رقم"
+                                       placeholder="01XXXXXXXXX" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">العنوان بالكامل</label>
+                            <textarea asp-for="Address" class="form-control" rows="2" placeholder="المحافظة - المنطقة - الشارع - رقم العقار" required></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        @* لو ضايف حقل Landmark في موديل الـ Order استخدمه، لو مش ضايفه شيله *@
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">مكان مميز بجوارك</label>
+                            <input name="Landmark" class="form-control" placeholder="بجوار صيدلية.. أو مسجد.." />
+                        </div>
+
+                        <div class="alert alert-info text-center">
+                            <h5>إجمالي الحساب: <span class="text-danger fw-bold">@Context.Session.GetInt32("TotalPrice") جنيه</span></h5>
+                            @* بنبعت التوتال برضه مخفي عشان يتحفظ *@
+                            <input type="hidden" name="TotalPrice" value="@Context.Session.GetInt32("TotalPrice")" />
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100 shadow">تأكيد الأوردر الآن ✅</button>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a asp-action="Grill" class="btn btn-link text-decoration-none text-muted">← العودة لتعديل السلة</a>
+            </div>
+        </div>
+    </div>
+</div>
+
